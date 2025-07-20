@@ -1,33 +1,33 @@
 .add-book-form {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-md);
 }
 .add-book-form input {
   padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   flex: 1 1 120px;
 }
 .add-book-form button {
-  background: #222;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-bg);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 8px 18px;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
 }
 .add-book-form button:hover {
-  background: #444;
+  background: var(--color-primary-hover);
 }
 @media (max-width: 600px) {
   .add-book-form {
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap-sm);
   }
   .add-book-form input, .add-book-form button {
     width: 100%;
