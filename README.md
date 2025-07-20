@@ -8,9 +8,9 @@ npm install
 
 # 3. Crea el archivo .env en backend (si no existe)
 # Ejemplo de contenido:
-# MONGO_URI=mongodb://localhost:27017/personal_library
-# JWT_SECRET=supersecreto123
-# PORT=5000
+# MONGO_URI=mongodb://localhost:00000/personal_library
+# JWT_SECRET=supersecretoexample
+# PORT=0001
 
 # 4. Inicia el backend
 node server.js
