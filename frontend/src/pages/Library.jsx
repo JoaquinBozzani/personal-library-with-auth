@@ -3,6 +3,7 @@ import BookItem from '../components/BookItem';
 import AddBookForm from '../components/AddBookForm';
 import { getBooks, addBook, updateBook, deleteBook } from '../services/bookService';
 import { useAuth } from '../context/AuthContext';
+import './Library.css';
 
 function Library() {
   const { token } = useAuth();
@@ -67,21 +68,24 @@ function Library() {
   const unreadBooks = books.filter(b => !b.read);
 
   return (
-    <div>
+    <div className="library-container">
       <AddBookForm onAdd={handleAddBook} />
       {loading && <p>Loading books...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <h2>Books to read</h2>
-      {unreadBooks.length === 0 ? <p>No books to read.</p> :
-        unreadBooks.map(book => (
-          <BookItem key={book._id} book={book} onMarkRead={handleMarkRead} onMarkUnread={handleMarkUnread} onDelete={handleDelete} />
-        ))}
-
-      <h2>Read books</h2>
-      {readBooks.length === 0 ? <p>No read books.</p> :
-        readBooks.map(book => (
-          <BookItem key={book._id} book={book} onMarkRead={handleMarkRead} onMarkUnread={handleMarkUnread} onDelete={handleDelete} />
-        ))}
+      <h2 className="library-section-title">Books to read</h2>
+      <div className="books-horizontal-scroll">
+        {unreadBooks.length === 0 ? <p>No books to read.</p> :
+          unreadBooks.map(book => (
+            <BookItem key={book._id} book={book} onMarkRead={handleMarkRead} onMarkUnread={handleMarkUnread} onDelete={handleDelete} />
+          ))}
+      </div>
+      <h2 className="library-section-title">Read books</h2>
+      <div className="books-list">
+        {readBooks.length === 0 ? <p>No read books.</p> :
+          readBooks.map(book => (
+            <BookItem key={book._id} book={book} onMarkRead={handleMarkRead} onMarkUnread={handleMarkUnread} onDelete={handleDelete} />
+          ))}
+      </div>
     </div>
   );
 }

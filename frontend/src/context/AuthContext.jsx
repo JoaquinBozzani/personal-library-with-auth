@@ -2,24 +2,43 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
+function getStorage(rememberMe) {
+  return rememberMe ? localStorage : sessionStorage;
+}
+
 export function AuthProvider({ children }) {
+  const [rememberMe, setRememberMe] = useState(() => {
+    const stored = localStorage.getItem('rememberMe');
+    return stored === null ? true : stored === 'true';
+  });
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
+    const storage = localStorage.getItem('rememberMe') === 'false' ? sessionStorage : localStorage;
+    const storedUser = storage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const [token, setToken] = useState(() => {
+    const storage = localStorage.getItem('rememberMe') === 'false' ? sessionStorage : localStorage;
+    return storage.getItem('token');
+  });
 
   useEffect(() => {
+    localStorage.setItem('rememberMe', rememberMe);
+    const storage = getStorage(rememberMe);
     if (user && token) {
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
+      storage.setItem('user', JSON.stringify(user));
+      storage.setItem('token', token);
     } else {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      storage.removeItem('user');
+      storage.removeItem('token');
     }
-  }, [user, token]);
+    // Remove from the other storage
+    const otherStorage = rememberMe ? sessionStorage : localStorage;
+    otherStorage.removeItem('user');
+    otherStorage.removeItem('token');
+  }, [user, token, rememberMe]);
 
-  const login = (userData, tokenData) => {
+  const login = (userData, tokenData, remember = rememberMe) => {
+    setRememberMe(remember);
     setUser(userData);
     setToken(tokenData);
   };
@@ -30,7 +49,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, rememberMe, setRememberMe }}>
       {children}
     </AuthContext.Provider>
   );
