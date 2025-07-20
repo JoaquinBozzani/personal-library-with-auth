@@ -19,17 +19,17 @@ function Register() {
       login(data.user, data.token);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al registrarse');
+      setError(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
     <div>
-      <h2>Registrarse</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Nombre"
+          placeholder="Name"
           value={name}
           onChange={e => setName(e.target.value)}
           required
@@ -43,12 +43,12 @@ function Register() {
         />
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Registrarse</button>
+        <button type="submit">Register</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>

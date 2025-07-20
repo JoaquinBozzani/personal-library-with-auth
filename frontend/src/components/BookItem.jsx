@@ -1,16 +1,24 @@
 import React from 'react';
+import './BookItem.css';
 
-function BookItem({ book, onMarkRead, onDelete }) {
+function BookItem({ book, onMarkRead, onMarkUnread, onDelete }) {
   return (
-    <div style={{ border: '1px solid #ccc', margin: 8, padding: 8 }}>
+    <div className="book-item">
       <h3>{book.title}</h3>
-      <p>Autor: {book.author}</p>
-      <p>Estado: {book.read ? 'Leído' : 'Por leer'}</p>
-      <button onClick={() => onMarkRead(book)} disabled={book.read}>
-        Marcar como leído
-      </button>
-      <button onClick={() => onDelete(book)} style={{ marginLeft: 8 }}>
-        Eliminar
+      <p>Author: {book.author}</p>
+      <p>Status: {book.read ? 'Read' : 'To read'}</p>
+      {!book.read && (
+        <button onClick={() => onMarkRead(book)}>
+          Mark as read
+        </button>
+      )}
+      {book.read && (
+        <button onClick={() => onMarkUnread(book)}>
+          Mark as unread
+        </button>
+      )}
+      <button onClick={() => onDelete(book)}>
+        Delete
       </button>
     </div>
   );
