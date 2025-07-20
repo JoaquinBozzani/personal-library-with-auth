@@ -7,16 +7,16 @@ function Navbar() {
 
   return (
     <nav>
-      <Link to="/">Biblioteca</Link>
+      <Link to="/">Library</Link>
       {user ? (
         <>
-          <Link to="/settings">Ajustes</Link>
-          <button onClick={logout}>Cerrar sesión</button>
+          <Link to="/settings">Settings</Link>
+          <button onClick={logout}>Log out</button>
         </>
       ) : (
         <>
-          <Link to="/login">Iniciar sesión</Link>
-          <Link to="/register">Registrarse</Link>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
         </>
       )}
     </nav>

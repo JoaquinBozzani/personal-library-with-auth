@@ -18,13 +18,13 @@ function Login() {
       login(data.user, data.token);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al iniciar sesión');
+      setError(err.response?.data?.message || 'Login failed');
     }
   };
 
   return (
     <div>
-      <h2>Iniciar sesión</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -35,12 +35,12 @@ function Login() {
         />
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Entrar</button>
+        <button type="submit">Login</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>

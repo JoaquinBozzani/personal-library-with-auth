@@ -1,28 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BookItem from '../components/BookItem';
 import AddBookForm from '../components/AddBookForm';
-
-const mockBooks = [
-  { id: 1, title: 'Cien años de soledad', author: 'Gabriel García Márquez', read: true },
-  { id: 2, title: 'El principito', author: 'Antoine de Saint-Exupéry', read: false },
-  { id: 3, title: '1984', author: 'George Orwell', read: false },
-  { id: 4, title: 'Rayuela', author: 'Julio Cortázar', read: true },
-];
+import { getBooks, addBook, updateBook, deleteBook } from '../services/bookService';
+import { useAuth } from '../context/AuthContext';
 
 function Library() {
-  const [books, setBooks] = useState(mockBooks);
+  const { token } = useAuth();
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const handleMarkRead = (book) => {
-    setBooks(books.map(b => b.id === book.id ? { ...b, read: true } : b));
+  // Fetch books from backend
+  useEffect(() => {
+    const fetchBooks = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const data = await getBooks(token);
+        setBooks(data);
+      } catch (err) {
+        setError('Error loading books');
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (token) fetchBooks();
+  }, [token]);
+
+  const handleMarkRead = async (book) => {
+    try {
+      const updated = await updateBook(book._id, { read: true }, token);
+      setBooks(books.map(b => b._id === book._id ? updated : b));
+    } catch (err) {
+      setError('Error marking book as read');
+    }
   };
 
-  const handleDelete = (book) => {
-    setBooks(books.filter(b => b.id !== book.id));
+  const handleMarkUnread = async (book) => {
+    try {
+      const updated = await updateBook(book._id, { read: false }, token);
+      setBooks(books.map(b => b._id === book._id ? updated : b));
+    } catch (err) {
+      setError('Error marking book as unread');
+    }
   };
 
-  const handleAddBook = (newBook) => {
-    const nextId = books.length ? Math.max(...books.map(b => b.id)) + 1 : 1;
-    setBooks([...books, { ...newBook, id: nextId, read: false }]);
+  const handleDelete = async (book) => {
+    try {
+      await deleteBook(book._id, token);
+      setBooks(books.filter(b => b._id !== book._id));
+    } catch (err) {
+      setError('Error deleting book');
+    }
+  };
+
+  const handleAddBook = async (newBook) => {
+    try {
+      const created = await addBook(newBook, token);
+      setBooks([...books, created]);
+    } catch (err) {
+      setError('Error adding book');
+    }
   };
 
   const readBooks = books.filter(b => b.read);
@@ -31,16 +69,18 @@ function Library() {
   return (
     <div>
       <AddBookForm onAdd={handleAddBook} />
-      <h2>Libros por leer</h2>
-      {unreadBooks.length === 0 ? <p>No hay libros por leer.</p> :
+      {loading && <p>Loading books...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h2>Books to read</h2>
+      {unreadBooks.length === 0 ? <p>No books to read.</p> :
         unreadBooks.map(book => (
-          <BookItem key={book.id} book={book} onMarkRead={handleMarkRead} onDelete={handleDelete} />
+          <BookItem key={book._id} book={book} onMarkRead={handleMarkRead} onMarkUnread={handleMarkUnread} onDelete={handleDelete} />
         ))}
 
-      <h2>Libros leídos</h2>
-      {readBooks.length === 0 ? <p>No hay libros leídos.</p> :
+      <h2>Read books</h2>
+      {readBooks.length === 0 ? <p>No read books.</p> :
         readBooks.map(book => (
-          <BookItem key={book.id} book={book} onMarkRead={handleMarkRead} onDelete={handleDelete} />
+          <BookItem key={book._id} book={book} onMarkRead={handleMarkRead} onMarkUnread={handleMarkUnread} onDelete={handleDelete} />
         ))}
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './AddBookForm.css';
 
 function AddBookForm({ onAdd }) {
   const [title, setTitle] = useState('');
@@ -13,23 +14,22 @@ function AddBookForm({ onAdd }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: 16 }}>
+    <form onSubmit={handleSubmit} className="add-book-form">
       <input
         type="text"
-        placeholder="Título"
+        placeholder="Title"
         value={title}
         onChange={e => setTitle(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Autor"
+        placeholder="Author"
         value={author}
         onChange={e => setAuthor(e.target.value)}
         required
-        style={{ marginLeft: 8 }}
       />
-      <button type="submit" style={{ marginLeft: 8 }}>Agregar libro</button>
+      <button type="submit">Add book</button>
     </form>
   );
 }

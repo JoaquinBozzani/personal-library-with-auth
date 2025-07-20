@@ -5,7 +5,7 @@ exports.getBooks = async (req, res) => {
     const books = await Book.find({ user: req.user.id });
     res.json(books);
   } catch (err) {
-    res.status(500).json({ message: 'Error al obtener libros' });
+    res.status(500).json({ message: 'Error fetching books' });
   }
 };
 
@@ -13,7 +13,7 @@ exports.addBook = async (req, res) => {
   try {
     const { title, author } = req.body;
     if (!title || !author) {
-      return res.status(400).json({ message: 'Título y autor son obligatorios' });
+      return res.status(400).json({ message: 'Title and author are required' });
     }
     const book = await Book.create({
       user: req.user.id,
@@ -23,7 +23,7 @@ exports.addBook = async (req, res) => {
     });
     res.status(201).json(book);
   } catch (err) {
-    res.status(500).json({ message: 'Error al agregar libro' });
+    res.status(500).json({ message: 'Error adding book' });
   }
 };
 
@@ -37,11 +37,11 @@ exports.updateBook = async (req, res) => {
       { new: true }
     );
     if (!book) {
-      return res.status(404).json({ message: 'Libro no encontrado' });
+      return res.status(404).json({ message: 'Book not found' });
     }
     res.json(book);
   } catch (err) {
-    res.status(500).json({ message: 'Error al actualizar libro' });
+    res.status(500).json({ message: 'Error updating book' });
   }
 };
 
@@ -50,10 +50,10 @@ exports.deleteBook = async (req, res) => {
     const { id } = req.params;
     const book = await Book.findOneAndDelete({ _id: id, user: req.user.id });
     if (!book) {
-      return res.status(404).json({ message: 'Libro no encontrado' });
+      return res.status(404).json({ message: 'Book not found' });
     }
-    res.json({ message: 'Libro eliminado' });
+    res.json({ message: 'Book deleted' });
   } catch (err) {
-    res.status(500).json({ message: 'Error al eliminar libro' });
+    res.status(500).json({ message: 'Error deleting book' });
   }
 }; 
