@@ -22,7 +22,7 @@ npm install
 Create a `.env` file in the `backend` folder with the following content:
 ```
 MONGO_URI=mongodb://localhost:27017/personal_library
-JWT_SECRET=supersecreto123
+JWT_SECRET=secretexample
 PORT=5000
 ```
 Make sure MongoDB is running locally. Then run:
@@ -70,7 +70,7 @@ npm install
 Crea un archivo `.env` en la carpeta `backend` con el siguiente contenido:
 ```
 MONGO_URI=mongodb://localhost:27017/personal_library
-JWT_SECRET=supersecreto123
+JWT_SECRET=secretexample
 PORT=5000
 ```
 Asegúrate de tener MongoDB corriendo localmente. Luego ejecuta:
