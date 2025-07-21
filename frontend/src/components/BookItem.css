@@ -13,6 +13,13 @@
 .book-item h3 {
   font-size: 1.1rem;
   margin: 0 0 4px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  max-width: 100%;
 }
 .book-item p {
   margin: 0 0 var(--gap-sm) 0;
@@ -32,6 +39,9 @@
 }
 .book-item button:hover {
   background: var(--color-btn-hover);
+}
+[data-theme="dark"] .book-item button {
+  color: var(--color-text);
 }
 @media (max-width: 600px) {
   .book-item {
