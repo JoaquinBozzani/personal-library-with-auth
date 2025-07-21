@@ -28,24 +28,24 @@
 }
 
 [data-theme="dark"] {
-  --color-bg: #18191a;
-  --color-bg-alt: #23272f;
-  --color-border: #333;
-  --color-border-dark: #444;
-  --color-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  --color-primary: #e4e6eb;
-  --color-primary-hover: #b0b3b8;
+  --color-bg: #121212;
+  --color-bg-alt: #282828;
+  --color-border: #3f3f3f;
+  --color-border-dark: #575757;
+  --color-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  --color-primary: #8b8b8b;
+  --color-primary-hover: #717171;
   --color-text: #e4e6eb;
   --color-text-light: #b0b3b8;
-  --color-btn-bg: #23272f;
-  --color-btn-hover: #3a3b3c;
+  --color-btn-bg: #282828;
+  --color-btn-hover: #3f3f3f;
   --color-link-hover: #23272f;
 }
 
 body {
   background: var(--color-bg-alt);
   color: var(--color-text);
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Noto Serif', serif, 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
   transition: background 0.2s, color 0.2s;
